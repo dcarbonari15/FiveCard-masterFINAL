@@ -1,0 +1,146 @@
+package edu.up.cs301.FCDGame;
+
+import edu.up.cs301.card.Card;
+import edu.up.cs301.card.Rank;
+import edu.up.cs301.card.Suit;
+import edu.up.cs301.game.GameMainActivity;
+import edu.up.cs301.game.GamePlayer;
+import edu.up.cs301.game.infoMsg.GameInfo;
+
+/**
+ * The player class. This the class that contains all the pertinent information for all the players
+ * Both the computer players and the human players will extend from this class.
+ *
+ * @author David Carbonari
+ * @author Ryan Dehart
+ * @author Gabe Hall
+ * @version March 2016
+ */
+public class Player implements GamePlayer{
+    private int bet;
+    private int money;
+    private int handValue;
+    private int raiseAmount;
+
+    private boolean fold;
+
+    private Card[] hand;
+
+    /**
+     * default constructor
+     */
+    public Player(){
+        this.bet = 0;
+        this.money = 500;
+        this.fold = false;
+        this.raiseAmount = 0;
+        this.hand = new Card[]{new Card(Rank.FIVE, Suit.Diamond), new Card(Rank.ACE, Suit.Club), new Card(Rank.THREE, Suit.Diamond),
+                new Card(Rank.FOUR, Suit.Spade), new Card(Rank.TWO, Suit.Diamond)};
+    }
+
+    /**
+     * deep copy constructor
+     *
+     * @param player --> the player to be copied
+     * @param state --> the gamestate that hold what some of the player attributes are
+     */
+    public Player(Player player, FCDState state){
+        this.bet = player.getBet();
+        this.money = player.getMoney();
+        this.hand = new Card[5];
+        for (int i = 0; i < 5; i++){
+            this.hand[i] = player.getCard(i);
+        }
+        this.handValue = state.handValue(player.getHand());
+        this.fold = player.isFold();
+        this.raiseAmount = player.getRaiseAmount();
+    }
+
+    /**
+     * this method takes a player out of the game as a fold action should.
+     */
+    public void fold(){
+        this.fold = true;
+    }
+
+//following methods are various getters and setters
+    public void setMoney(int money){
+        this.money = money;
+    }
+
+    public void setBet(int bet) {
+        this.bet = bet;
+    }
+
+    public void setHand(Card[] cards){
+        int index = 0;
+        for(Card c:cards){
+            hand[index] = c;
+            index++;
+        }
+    }
+
+    public int getRaiseAmount() {
+        return raiseAmount;
+    }
+
+    public void setRaiseAmount(int raiseAmount) {
+        this.raiseAmount = raiseAmount;
+    }
+
+    public void setCard(int index, Card card){
+        hand[index] = card;
+    }
+
+    public Card getCard(int index){
+        if (index >= 0) {
+            return hand[index];
+        } else {
+            return null;
+        }
+    }
+
+    public int getBet() {
+        return bet;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public boolean isFold() {
+        return fold;
+    }
+
+    public Card[] getHand() {
+        return hand;
+    }
+
+    public int getHandValue() {
+        return handValue;
+    }
+
+    public void gameSetAsGui(GameMainActivity activity) {
+
+    }
+
+    public void setAsGui(GameMainActivity activity) {
+
+    }
+
+    public void sendInfo(GameInfo info) {
+
+    }
+
+    public void start() {
+
+    }
+
+    public boolean requiresGui() {
+        return false;
+    }
+
+    public boolean supportsGui() {
+        return false;
+    }
+}
